@@ -1,7 +1,6 @@
 package com.technova.shopverse.controller;
 
 import com.technova.shopverse.model.Product;
-import com.technova.shopverse.repository.ProductRepository;
 import com.technova.shopverse.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

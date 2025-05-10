@@ -1,11 +1,10 @@
 package com.technova.shopverse.controller;
 
 import com.technova.shopverse.model.Category;
-import com.technova.shopverse.repository.CategoryRepository;
+import com.technova.shopverse.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -13,46 +12,36 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    private CategoryRepository categoryRepository;
-
+    private CategoryService categoryService;
 
     @GetMapping
     public List<Category> getAll(){
 
-        return categoryRepository.findAll();
+        return categoryService.getAllCategories();
     }
 
     @GetMapping("/{id}")
     public Category getById(@PathVariable Long id){
 
-        return categoryRepository.findById(id).orElse(null);
+        return categoryService.getCategoryById(id).orElse(null);
     }
 
     @PostMapping
     public Category create(@RequestBody Category category){
 
-        return categoryRepository.save(category);
+        return categoryService.createCategory(category);
     }
 
     @PutMapping("/{id}")
-    public Category update(@PathVariable Long id, @RequestBody Category categoryDetails){
+    public Category update(@PathVariable Long id, @RequestBody Category category){
 
-        Category category = categoryRepository.findById(id).orElse(null);
-
-            if(category != null){
-                category.setName(categoryDetails.getName());
-                category.setDescription(categoryDetails.getDescription());
-
-                return categoryRepository.save(category);
-            }
-        return null;
+        return categoryService.updateCategory(id, category);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
 
-        categoryRepository.deleteById(id);
-
+        categoryService.deleteCategory(id);
     }
 
 }
