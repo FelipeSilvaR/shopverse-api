@@ -19,8 +19,8 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, String description, Double price) {
-        this.id = id;
+    public Product(String name, String description, Double price) {
+
         this.name = name;
         this.description = description;
         this.price = price;
@@ -28,10 +28,6 @@ public class Product {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
