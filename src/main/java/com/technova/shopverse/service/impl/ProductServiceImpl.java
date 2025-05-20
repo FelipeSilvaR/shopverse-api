@@ -1,6 +1,7 @@
 package com.technova.shopverse.service.impl;
 
 
+import com.technova.shopverse.dto.ProductDTO;
 import com.technova.shopverse.model.Product;
 import com.technova.shopverse.repository.ProductRepository;
 import com.technova.shopverse.service.ProductService;
@@ -16,18 +17,20 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Override
+    public List<ProductDTO> getAllProductsDTOs() {
 
-    public List<Product> getAllProducts() {
-
-        return productRepository.findAll();
+        return productRepository.findAll().stream().map(this::toDTO).toList();
     }
 
-    public Optional<Product> getProductById(Long id) {
+    @Override
+    public Optional<ProductDTO> getProductById(Long id) {
 
-        return productRepository.findById(id);
+        return productRepository.findById(id).map(this::toDTO);
     }
 
-    public Product createProduct(Product product) {
+    @Override
+    public ProductDTO createProduct(Product product) {
 
         if (product.getName() == null || product.getName().isBlank()) {
             throw new IllegalArgumentException("El nombre del producto no puede estar vacío.");
@@ -35,10 +38,14 @@ public class ProductServiceImpl implements ProductService {
         if (product.getPrice() == null || product.getPrice() <= 0) {
             throw new IllegalArgumentException("El precio debe ser mayor a 0.");
         }
-        return productRepository.save(product);
+
+        Product productCreated = productRepository.save(product);
+
+        return toDTO(productCreated);
     }
 
-    public Product updateProduct(Long id, Product updated) {
+    @Override
+    public ProductDTO updateProduct(Long id, Product updated) {
 
         Optional<Product> optionalProduct = productRepository.findById(id);
 
@@ -51,11 +58,32 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(updated.getDescription());
         product.setPrice(updated.getPrice());
 
-        return productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
+
+        return toDTO(savedProduct);
     }
 
+    @Override
     public void deleteProduct(Long id) {
 
         productRepository.deleteById(id);
+    }
+
+    public ProductDTO toDTO(Product product){
+
+        String categoryName = product.getCategory() != null ? product.getCategory().getName() : null;
+
+        return new ProductDTO(
+                product.getId(),
+                product.getName(),
+                product.getPrice(),
+                categoryName
+        );
+    }
+
+    @Override
+    public List<ProductDTO> getByCategoryId(Long categoryId) {
+
+        return productRepository.findByCategoryId(categoryId).stream().map(this::toDTO).toList();
     }
 }
