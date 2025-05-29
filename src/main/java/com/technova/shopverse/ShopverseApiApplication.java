@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ShopverseApiApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(ShopverseApiApplication.class, args);
 	}
 

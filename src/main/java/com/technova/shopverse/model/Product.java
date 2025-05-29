@@ -1,6 +1,5 @@
 package com.technova.shopverse.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -29,6 +28,14 @@ public class Product {
     private Category category;
 
     public Product() {
+    }
+
+    public Product(Long id, String name, String description, Double price, Category category) {
+        this.id = null;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
     }
 
     public Product(String name, String description, Double price) {
