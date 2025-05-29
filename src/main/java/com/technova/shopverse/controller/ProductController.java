@@ -6,6 +6,7 @@ import com.technova.shopverse.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -38,6 +39,7 @@ public class ProductController {
         return productService.getProductById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build()); //200 o 404
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody Product product){
 

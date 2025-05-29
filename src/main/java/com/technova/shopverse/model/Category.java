@@ -25,6 +25,12 @@ public class Category {
     public Category() {
     }
 
+    public Category(Long id, String name, String description) {
+        this.id = null;
+        this.name = name;
+        this.description = description;
+    }
+
     public Category(String name, String description) {
 
         this.name = name;
