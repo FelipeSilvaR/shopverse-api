@@ -3,6 +3,9 @@ package com.technova.shopverse.controller;
 import com.technova.shopverse.dto.ProductDTO;
 import com.technova.shopverse.model.Product;
 import com.technova.shopverse.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +17,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
+@Tag(name = "Productos", description = "Operaciones relacionadas con productos")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
 
+    @Operation(summary = "Obtener todos los productos", description = "Este endpoint devuelve una lista con todos los productos disponibles")
+    @ApiResponse(responseCode = "200", description = "Lista de productos retornada correctamente")
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getAll() {
 
